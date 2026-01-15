@@ -22,3 +22,6 @@ rad.json
 TestResults.xml
 
 .env
+
+dags/__pycache__/
+logs/dag_processor
