@@ -1,10 +1,10 @@
 from airflow import DAG 
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-from pipelines.extract import upload_to_s3,download_from_s3
+from etl_retail_sales.pipelines.extract import upload_to_s3,download_from_s3
 import logging
 import os
-from logs.log_config import setup_config
+from etl_retail_sales.logs.log_config import setup_config
 
 setup_config()
 local_csv_path=r"C:\Users\sachi\Downloads\hospital_data"

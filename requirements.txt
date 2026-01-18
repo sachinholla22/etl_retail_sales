@@ -1,4 +1,4 @@
-pandas
-boto3
-apache-airflow 
-sqlalchemy
+apache-airflow==3.1.5
+pandas==1.5.3
+boto3==1.26.150
+SQLAlchemy==2.0.15
