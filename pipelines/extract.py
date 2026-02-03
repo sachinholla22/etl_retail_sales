@@ -1,7 +1,7 @@
 import os
 import boto3
 from botocore.exceptions import ClientError
-from logs.log_config import setup_config
+from common.log_config import setup_config
 import pandas as pd
 import logging
 
@@ -12,11 +12,17 @@ def upload_to_s3(bucket_name,object_name,file_name):
         logging.info("Started uploading file")
         s3_client=boto3.client('s3')
         
+        
         if not object_name:
             object_name=file_name
         try:
+            if s3_client.head_object(Bucket=bucket_name,Key=object_name):
+                logging.info(f"Bucket Already exists in s3 {bucket_name} and {object_name}")
+        except ClientError as e:    
+            logging.error(e)
+        try:
 
-            if s3_client.head_object(bucket_name,object_name):
+            if s3_client.head_object(Bucket=bucket_name,Key=object_name):
                 logging.info("File already exists in the AWS S3")
                 return 
         except ClientError as e:

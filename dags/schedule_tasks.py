@@ -1,22 +1,23 @@
 from airflow import DAG 
 from airflow.operators.python import PythonOperator
-from datetime import datetime
-from etl_retail_sales.pipelines.extract import upload_to_s3,download_from_s3
+from datetime import datetime, timedelta
+from pipelines.extract import upload_to_s3,download_from_s3
 import logging
 import os
-from etl_retail_sales.logs.log_config import setup_config
+from common.log_config import setup_config
+
 
 setup_config()
 local_csv_path=r"C:\Users\sachi\Downloads\hospital_data"
 bucket="amazon-aws-200122"
 object_name="sales/"
 file_name="retail_sales.csv"
-directory=os.getabspath("../datas/raw/")
+directory=os.path.abspath("../datas/raw/")
 local_destination=os.path.join(directory,"local_copy.csv")
 
 basic_config={
     
-    "start_date":datetime(2025,12,23),
+    "start_date": datetime.now() - timedelta(days=1),
     "retries":1
 
 }
@@ -25,7 +26,7 @@ basic_config={
 with DAG(
    dag_id="testing_airflow_dag",
    default_args=basic_config,
-   schedule_interval="@daily",
+  
    catchup=False
 
 ) as dag:
